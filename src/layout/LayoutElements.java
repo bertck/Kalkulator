@@ -1,29 +1,36 @@
 package layout;
 
-import java.awt.Button;
 import java.awt.Color;
 import java.awt.Font;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 public class LayoutElements {
 
-    public LayoutElements() {
-    }
-
-    public JLabel getLabel(String value, Color textColor, Color bgColor, int txtAlign, int size, float w, float h) {
+    public JLabel getLabel(String value, Color textColor, Color bgColor, int txtAlign, int fontSize, int w, int h) {
         JLabel label = new JLabel(value, txtAlign);
         
-        label.setSize((int) w, (int) h);
-        label.setFont(new Font("Baskerville", Font.PLAIN, size));
+        label.setSize(w, h);
+        label.setFont(new Font("Baskerville", Font.PLAIN, fontSize));
         label.setBackground(bgColor);
         label.setForeground(textColor);
+        label.setVerticalAlignment(SwingConstants.CENTER);
 
         return label;
     }
 
-    public Button getButton(String value) {
-        return null;
+    public JButton getButton(String value, Color textColor, Color bgColor, int fontSize, int sideSize) {
+        JButton button = new JButton(value);
+        
+        button.setBackground(bgColor);
+        button.setForeground(textColor);
+        button.setFont(new Font("Baskerville", Font.PLAIN, fontSize));
+
+        button.setSize(sideSize, sideSize);
+
+        return button;
     }
 
     

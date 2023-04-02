@@ -2,14 +2,14 @@ package layout;
 //--- singleton Window class for displaying window
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
@@ -19,6 +19,8 @@ public class Window {
     private static final String ICON_PATH = "../resources/images/calculator_icon.png";
 
     private static JFrame windowFrame;
+
+    private LayoutElements layoutElements;
 
     //colors from: https://www.canva.com/colors/color-palettes/here-at-home/
     Color gray = new Color(0x746C70); //background
@@ -32,7 +34,7 @@ public class Window {
 
     //--- no args contructor creating window
     public Window() {
-        LayoutElements layoutElements = new LayoutElements();
+        layoutElements = new LayoutElements();
 
         //finding image
         if (getClass().getResource(ICON_PATH) == null) 
@@ -57,14 +59,26 @@ public class Window {
         
         
         //drawing buttons and number fields
-        JLabel resultLabel = layoutElements.getLabel("4", blueGray, gray, SwingConstants.RIGHT, 50, (float) WINDOW_WIDTH-25, (float) WINDOW_HEIGHT/8);
-        JLabel actionLabel = layoutElements.getLabel("2+2=", ivory, gray, SwingConstants.RIGHT, 44, (float) WINDOW_WIDTH-25, (float) WINDOW_HEIGHT/8);
+        JPanel labelsPanel = new JPanel(); //panel for labels
+        labelsPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT/4);
+        labelsPanel.setBackground(coolGray);
+        labelsPanel.setBorder(BorderFactory.createLineBorder(gray));
+
+        JLabel resultLabel = layoutElements.getLabel("4", blueGray, gray, SwingConstants.RIGHT, 50, (int) WINDOW_WIDTH-25, (int) WINDOW_HEIGHT/8);
+        JLabel actionLabel = layoutElements.getLabel("2+2=", ivory, gray, SwingConstants.RIGHT, 44, (int) WINDOW_WIDTH-25, (int) WINDOW_HEIGHT/8);
         
         resultLabel.setLocation(0, 0);
         actionLabel.setLocation(0, WINDOW_HEIGHT/8);
 
-        windowFrame.add(resultLabel);
-        windowFrame.add(actionLabel);
+        //adding labels to panel
+        labelsPanel.add(resultLabel);
+        labelsPanel.add(actionLabel);
+
+        //adding panel to window
+        windowFrame.getContentPane().add(labelsPanel);
+
+        //drawing buttons
+        drawButtons();
         
     }
 
@@ -78,7 +92,26 @@ public class Window {
         return windowFrame != null;
     }
 
-    private void drawGrid() {
+    private void drawButtons() {
+        final int BUTTON_SIZE = WINDOW_WIDTH/4 - 10;
+        
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBounds(0, WINDOW_HEIGHT/4, WINDOW_WIDTH, WINDOW_HEIGHT * 3/4);
+        buttonPanel.setBackground(blueGray);
+
+        
+        GridLayout grid = new GridLayout(4, 4, WINDOW_WIDTH/4, WINDOW_WIDTH/4);
+        
+        buttonPanel.setLayout(grid);
+        
+        buttonPanel.add(layoutElements.getButton("9", ivory, coolGray, 30, BUTTON_SIZE));
+        buttonPanel.add(layoutElements.getButton("8", ivory, coolGray, 18, BUTTON_SIZE));
+        buttonPanel.add(layoutElements.getButton("7", ivory, coolGray, 18, BUTTON_SIZE));
+        buttonPanel.add(layoutElements.getButton("+", ivory, coolGray, 18, BUTTON_SIZE));
+        
+        
+        windowFrame.getContentPane().add(buttonPanel);
+        
 
     }
 }
