@@ -7,11 +7,15 @@ import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
+
+import action.ClearLabel;
+import action.DisplayText;
 
 public class Window {
     private static final Integer WINDOW_WIDTH = 480;
@@ -21,6 +25,8 @@ public class Window {
     private static JFrame windowFrame;
 
     private LayoutElements layoutElements;
+    private JLabel resultLabel;
+    private JLabel actionLabel;
 
     //colors from: https://www.canva.com/colors/color-palettes/here-at-home/
     Color gray = new Color(0x746C70); //background
@@ -64,15 +70,15 @@ public class Window {
         labelsPanel.setBackground(coolGray);
         labelsPanel.setBorder(BorderFactory.createLineBorder(gray));
 
-        JLabel resultLabel = layoutElements.getLabel("4", blueGray, gray, SwingConstants.RIGHT, 50, (int) WINDOW_WIDTH-25, (int) WINDOW_HEIGHT/8);
-        JLabel actionLabel = layoutElements.getLabel("2+2=", ivory, gray, SwingConstants.RIGHT, 44, (int) WINDOW_WIDTH-25, (int) WINDOW_HEIGHT/8);
+        resultLabel = layoutElements.getLabel("", blueGray, gray, SwingConstants.RIGHT, 50, (int) WINDOW_WIDTH-25, (int) WINDOW_HEIGHT/8);
+        actionLabel = layoutElements.getLabel("", ivory, gray, SwingConstants.RIGHT, 44, (int) WINDOW_WIDTH-25, (int) WINDOW_HEIGHT/8);
         
         resultLabel.setLocation(0, 0);
         actionLabel.setLocation(0, WINDOW_HEIGHT/8);
 
         //adding labels to panel
-        labelsPanel.add(resultLabel);
         labelsPanel.add(actionLabel);
+        labelsPanel.add(resultLabel);
 
         //adding panel to window
         windowFrame.getContentPane().add(labelsPanel);
@@ -93,25 +99,37 @@ public class Window {
     }
 
     private void drawButtons() {
-        final int BUTTON_SIZE = WINDOW_WIDTH/4 - 10;
+        final int BUTTON_SIZE = WINDOW_WIDTH/4 - 25;
         
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBounds(0, WINDOW_HEIGHT/4, WINDOW_WIDTH, WINDOW_HEIGHT * 3/4);
         buttonPanel.setBackground(blueGray);
+        buttonPanel.setOpaque(true);
+        //GridLayout grid = new GridLayout(4, 4, WINDOW_WIDTH/4, WINDOW_WIDTH/4);
+        //buttonPanel.setLayout(grid);
+        
+        buttonPanel.add(layoutElements.getButton("9", ivory, coolGray, 30, BUTTON_SIZE, 10, 10, new DisplayText(actionLabel, "9")));
+        buttonPanel.add(layoutElements.getButton("8", ivory, coolGray, 30, BUTTON_SIZE, BUTTON_SIZE + 30, 10, new DisplayText(actionLabel, "8")));
+        buttonPanel.add(layoutElements.getButton("7", ivory, coolGray, 30, BUTTON_SIZE, 2 * BUTTON_SIZE + 50, 10, new DisplayText(actionLabel, "7")));
+        buttonPanel.add(layoutElements.getButton("+", ivory, coolGray, 30, BUTTON_SIZE, 3 * BUTTON_SIZE + 70, 10, new DisplayText(actionLabel, "+")));
+        
+        buttonPanel.add(layoutElements.getButton("6", ivory, coolGray, 30, BUTTON_SIZE, 10, BUTTON_SIZE + 20, new DisplayText(actionLabel, "6")));
+        buttonPanel.add(layoutElements.getButton("5", ivory, coolGray, 30, BUTTON_SIZE, BUTTON_SIZE + 30, BUTTON_SIZE + 20, new DisplayText(actionLabel, "5")));
+        buttonPanel.add(layoutElements.getButton("4", ivory, coolGray, 30, BUTTON_SIZE, 2 * BUTTON_SIZE + 50, BUTTON_SIZE + 20, new DisplayText(actionLabel, "4")));
+        buttonPanel.add(layoutElements.getButton("-", ivory, coolGray, 30, BUTTON_SIZE, 3 * BUTTON_SIZE + 70, BUTTON_SIZE + 20, new DisplayText(actionLabel, "-")));
 
-        
-        GridLayout grid = new GridLayout(4, 4, WINDOW_WIDTH/4, WINDOW_WIDTH/4);
-        
-        buttonPanel.setLayout(grid);
-        
-        buttonPanel.add(layoutElements.getButton("9", ivory, coolGray, 30, BUTTON_SIZE));
-        buttonPanel.add(layoutElements.getButton("8", ivory, coolGray, 18, BUTTON_SIZE));
-        buttonPanel.add(layoutElements.getButton("7", ivory, coolGray, 18, BUTTON_SIZE));
-        buttonPanel.add(layoutElements.getButton("+", ivory, coolGray, 18, BUTTON_SIZE));
-        
-        
+        buttonPanel.add(layoutElements.getButton("3", ivory, coolGray, 30, BUTTON_SIZE, 10, 2 * BUTTON_SIZE + 40, new DisplayText(actionLabel, "3")));
+        buttonPanel.add(layoutElements.getButton("2", ivory, coolGray, 30, BUTTON_SIZE, BUTTON_SIZE + 30, 2 * BUTTON_SIZE + 40, new DisplayText(actionLabel, "2")));
+        buttonPanel.add(layoutElements.getButton("1", ivory, coolGray, 30, BUTTON_SIZE, 2 * BUTTON_SIZE + 50, 2 * BUTTON_SIZE + 40, new DisplayText(actionLabel, "1")));
+        buttonPanel.add(layoutElements.getButton("*", ivory, coolGray, 30, BUTTON_SIZE, 3 * BUTTON_SIZE + 70, 2 * BUTTON_SIZE + 40, new DisplayText(actionLabel, "*")));
+
+        buttonPanel.add(layoutElements.getButton("C", ivory, coolGray, 30, BUTTON_SIZE, 10, 3 * BUTTON_SIZE + 60, new ClearLabel(actionLabel, resultLabel)));
+        buttonPanel.add(layoutElements.getButton("0", ivory, coolGray, 30, BUTTON_SIZE, BUTTON_SIZE + 30, 3 * BUTTON_SIZE + 60, new DisplayText(actionLabel, "0")));
+        buttonPanel.add(layoutElements.getButton("=", ivory, coolGray, 30, BUTTON_SIZE, 2 * BUTTON_SIZE + 50, 3 * BUTTON_SIZE + 60, new DisplayText(actionLabel, resultLabel, "=")));
+        buttonPanel.add(layoutElements.getButton("/", ivory, coolGray, 30, BUTTON_SIZE, 3 * BUTTON_SIZE + 70, 3 * BUTTON_SIZE + 60, new DisplayText(actionLabel, "/")));
+
         windowFrame.getContentPane().add(buttonPanel);
-        
+    
 
     }
 }

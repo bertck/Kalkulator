@@ -2,6 +2,8 @@ package layout;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -21,14 +23,16 @@ public class LayoutElements {
         return label;
     }
 
-    public JButton getButton(String value, Color textColor, Color bgColor, int fontSize, int sideSize) {
+    public JButton getButton(String value, Color textColor, Color bgColor, int fontSize, int sideSize, int locX, int locY, ActionListener action) {
         JButton button = new JButton(value);
         
         button.setBackground(bgColor);
         button.setForeground(textColor);
         button.setFont(new Font("Baskerville", Font.PLAIN, fontSize));
-
+        button.setLocation(locX, locY);
         button.setSize(sideSize, sideSize);
+
+        button.addActionListener(action);
 
         return button;
     }
